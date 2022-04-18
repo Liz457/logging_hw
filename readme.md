@@ -1,5 +1,4 @@
-
-# Links to Prod and Dev 
+# Links to production 
 
 [![Production Workflow](https://github.com/Liz457/logging_hw/actions/workflows/prod.yml/badge.svg)](https://github.com/Liz457/logging_hw/actions/workflows/prod.yml)
 
