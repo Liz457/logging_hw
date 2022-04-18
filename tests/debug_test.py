@@ -1,12 +1,16 @@
 import os
 
+from app import create_log_folder
+from tests.click_test import runner
+
 """ This checks if the debug log file is created"""
-# get the path to the file
-path = r'../logs/lizApp.log'
 
-# Check
-if os.path.isfile(path):
-    print('File exists')
 
-else:
-    print('File does not exist')
+def test_create_log_file():
+    response = runner.invoke(create_log_folder)
+    assert response.exit_code == 0
+    root = os.path.dirname(os.path.abspath(__file__))
+    logdir = os.path.join(root,'../app/logs')
+    response = os.path.exists(logdir)
+    assert response == True
+    
