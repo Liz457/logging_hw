@@ -8,6 +8,6 @@ def test_create_request_log():
     response = runner.invoke(create_log_folder)
     assert response.exit_code == 0
     root = os.path.dirname(os.path.abspath(__file__))
-    logdir = os.path.join(root,'../app/logs')
+    logdir = os.path.join(root,'../app/logs/myrequest.log')
     response = os.path.exists(logdir)
     assert response == True

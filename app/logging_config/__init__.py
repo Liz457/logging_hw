@@ -12,8 +12,11 @@ log_con = flask.Blueprint('log_con', __name__)
 @log_con.before_app_request
 def before_request_logging():
     current_app.logger.info("Before Request")
-    log = logging.getLogger("lizApp")
-    log.info("Liz App Logger")
+    log = logging.getLogger("lizDebugApp")
+    log.info("Debugging is logged")
+    log = logging.getLogger("myrequest")
+    log.info("Request is logged")
+
 
 
 @log_con.after_app_request
@@ -26,16 +29,20 @@ def after_request_logging(response):
         return response
     current_app.logger.info("After Request")
 
-    log = logging.getLogger("lizApp")
-    log.info("Liz App Logger")
+    log = logging.getLogger("lizDebugApp")
+    log.info("Debugging is logged")
+    log = logging.getLogger("myrequest")
+    log.info("Request is logged")
     return response
 
 
 @log_con.before_app_first_request
 def configure_logging():
     logging.config.dictConfig(LOGGING_CONFIG)
-    log = logging.getLogger("lizApp")
-    log.info("Liz App Logger")
+    log = logging.getLogger("lizDebugApp")
+    log.info("Debugging is logged")
+    log = logging.getLogger("myrequest")
+    log.info("Request is logged")
     log = logging.getLogger("myerrors")
     log.info("This broke")
 
@@ -74,17 +81,17 @@ LOGGING_CONFIG = {
             'maxBytes': 10000000,
             'backupCount': 5,
         },
-        'file.handler.lizApp':{
+        'file.handler.lizDebugApp':{
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'standard',
-            'filename': 'app/logs/lizApp.log',
+            'filename': 'app/logs/lizDebugApp.log',
             'maxBytes': 10000000,
             'backupCount': 5,
         },
         'file.handler.request': {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'RequestFormatter',
-            'filename': 'app/logs/request.log',
+            'filename': 'app/logs/myrequest.log',
             'maxBytes': 10000000,
             'backupCount': 5,
         },
@@ -136,8 +143,13 @@ LOGGING_CONFIG = {
             'level': 'DEBUG',
             'propagate': False
         },
-        'lizApp': { # if __name == '__main__'
-            'handlers': ['file.handler.lizApp'],
+        'lizDebugApp': { # if __name == '__main__'
+            'handlers': ['file.handler.lizDebugApp'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'myrequest': {  # if __name__ == '__main__'
+            'handlers': ['file.handler.request'],
             'level': 'DEBUG',
             'propagate': False
         },
